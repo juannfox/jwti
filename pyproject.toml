@@ -1,0 +1,56 @@
+[project]
+name = "jwti"
+version = "0.1.0"
+authors = [
+  { name="Juan Fox"},
+]
+description = "JWTI is a JWT inspector tool."
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "pyjwt>=2.10.1",
+    "rich>=14.1.0",
+    "typer>=0.17.4",
+]
+
+[dependency-groups]
+dev = [
+    "pre-commit==4.2.0",
+    "pyinstaller==6.12.0",
+    "pyright==1.1.384",
+    "pytest==8.3.3",
+    "pytest-cov==6.1.0",
+    "ruff==0.9.9",
+]
+
+[tool.setuptools]
+packages = ["jwtq"]
+
+[project.urls]
+"Homepage" = "https://github.com/juannfox/jwtq"
+
+# https://docs.astral.sh/ruff/configuration/
+
+[tool.ruff]
+line-length = 80
+indent-width = 4
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+[tool.ruff.lint]
+select = ["E", "F"]
+
+[tool.pytest.ini_options]
+pythonpath = [
+  "."
+]
+
+[tool.uv.sources]
+jwti = { workspace = true }
