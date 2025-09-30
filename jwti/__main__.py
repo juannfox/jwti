@@ -10,7 +10,7 @@ from rich.status import Status
 
 from jwti.__version__ import app_full_name, app_version
 from jwti.logger import log
-from jwti.jwt import decode_jwt, parse_jwt_date_claims
+from jwti.jwt import decode_jwt, parse_jwt_registered_claims, filter_jwt_claims
 
 
 def railguard_execution(
@@ -79,7 +79,10 @@ def inspect(
         typer.Option(
             "-c", "--claims",
             envvar="JWTQ_CLAIMS",
-            help="Which claim/s to display."
+            help=(
+                "Which claim/s to display; use multiple -c for "
+                "multiple claims."
+            ),
         ),
     ] = None,
     raw: Annotated[
@@ -89,7 +92,6 @@ def inspect(
             envvar="JWTQ_CLAIMS_RAW_OUTPUT",
             help=(
                 "Whether to display raw JWT claim values."
-                " Mutually exclusive with --json."
             ),
             is_flag=True,
         ),
@@ -101,7 +103,6 @@ def inspect(
             envvar="JWTQ_CLAIMS_JSON_OUTPUT",
             help=(
                 "Whether to display the decoded JWT as raw JSON."
-                " Mutually exclusive with --raw."
             ),
             is_flag=True,
         ),
@@ -121,23 +122,32 @@ def inspect(
         jwt=token
     )
 
-    # Show results
-    if raw:
-        print(payload)
-    elif json:
-        json = railguard_execution(
+    # Filter claims if requested
+    if claims:
+        payload = railguard_execution(
+            filter_jwt_claims,
+            action_description="filtering JWT claims",
+            jwt=payload,
+            claims=claims
+        )
+
+    # Parse claims if requested
+    if not raw:
+        payload = railguard_execution(
+            parse_jwt_registered_claims,
+            action_description="parsing JWT date claims",
+            jwt=payload
+        )
+
+    # Serialize JSON if requested
+    if json:
+        payload = railguard_execution(
             dumps,
             action_description="Serializing JWT to JSON",
             obj=payload
         )
-        print(json)
-    else:
-        parsed_jwt = railguard_execution(
-            parse_jwt_date_claims,
-            action_description="parsing JWT date claims",
-            jwt=payload
-        )
-        print(parsed_jwt)
+
+    print(payload)
 
 
 @app.command()

@@ -6,12 +6,8 @@ authors = [
 ]
 description = "JWTI is a JWT inspector tool."
 readme = "README.md"
+license-files = ["LICENSE"]
 requires-python = ">=3.10"
-classifiers = [
-    "Programming Language :: Python :: 3",
-    "License :: OSI Approved :: MIT License",
-    "Operating System :: OS Independent",
-]
 dependencies = [
     "pyjwt>=2.10.1",
     "rich>=14.1.0",
@@ -29,10 +25,10 @@ dev = [
 ]
 
 [tool.setuptools]
-packages = ["jwtq"]
+packages = ["jwti"]
 
 [project.urls]
-"Homepage" = "https://github.com/juannfox/jwtq"
+"Homepage" = "https://github.com/juannfox/jwti"
 
 # https://docs.astral.sh/ruff/configuration/
 

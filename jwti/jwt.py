@@ -1,7 +1,9 @@
 from jwt import DecodeError, decode as jwt_decode
 from datetime import datetime
 
-from jwti.const import TOKEN_PEEK_CHARS, TOKEN_MIN_LENGTH, JWT_DATE_CLAIMS
+from jwti.const import (
+    TOKEN_PEEK_CHARS, TOKEN_MIN_LENGTH, JWT_DATE_CLAIMS, JWT_REGISTERED_CLAIMS
+)
 from jwti.logger import log
 
 
@@ -31,13 +33,29 @@ def decode_jwt(
     return payload
 
 
-def parse_jwt_date_claims(jwt: dict) -> dict:
+def parse_jwt_registered_claims(jwt: dict) -> dict:
     """Parse the Unix timestamps in the JWT registered claims as dates"""
-    for claim in JWT_DATE_CLAIMS:
-        if jwt.get(claim):
-            try:
-                jwt[claim] = datetime.fromtimestamp(jwt[claim]).isoformat()
-            except Exception:
-                log.debug(f"Claim '{claim}' is not a unix a timestamp.")
+    for claim in JWT_REGISTERED_CLAIMS.keys():
+        if claim in jwt.keys():
+            if claim in JWT_DATE_CLAIMS:
+                try:
+                    jwt[claim] = datetime.fromtimestamp(jwt[claim]).isoformat()
+                except Exception:
+                    log.debug(f"Claim '{claim}' is not a unix a timestamp.")
+
+            claim_name = JWT_REGISTERED_CLAIMS[claim].capitalize()
+            jwt[claim_name] = jwt.pop(claim)
 
     return jwt
+
+
+def filter_jwt_claims(jwt: dict, claims: list) -> dict:
+    """Filter the JWT claims to only include the specified ones."""
+    filtered_jwt = {}
+    for claim in claims:
+        if claim in jwt.keys():
+            filtered_jwt[claim] = jwt[claim]
+        else:
+            log.warning(f"Claim '{claim}' not found in JWT.")
+
+    return filtered_jwt
