@@ -12,8 +12,8 @@ def decode_jwt(
         verify_signature: bool = False
 ) -> dict:
     """Decode a JWT token and parse it as a dictionary."""
-    if not jwt or len(jwt) < TOKEN_MIN_LENGTH:
-        raise ValueError("Invalid token length.")
+    if not jwt or not isinstance(jwt, str) or len(jwt) < TOKEN_MIN_LENGTH:
+        raise ValueError("Invalid token.")
 
     token_peek = f"{jwt[0:TOKEN_PEEK_CHARS]}...{jwt[-TOKEN_PEEK_CHARS:]}'"
     log.debug(f"Inspecting token '{token_peek}'")

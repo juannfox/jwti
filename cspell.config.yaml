@@ -1,5 +1,5 @@
 version: "0.2"
-ignorePaths: []
+ignorePaths: [tests/test_jwt.py]
 dictionaryDefinitions: []
 dictionaries: []
 words:
@@ -13,4 +13,5 @@ ignoreWords:
   - pytest
   - setuptools
   - pythonpath
+  - venv
 import: []
