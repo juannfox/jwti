@@ -1,6 +1,6 @@
 # jwti
 
-*JWTI* is an utility for inspecting JWT tokens.
+*JWT Inspector* is a handy CLI tool for inspecting JWT tokens 🔑.
 
 ## Usage
 
@@ -9,19 +9,19 @@
 Read from STDIN:
 
 ```bash
-echo "<JWT>" | python3 -m jwtq inspect -
+echo "<JWT>" | python3 -m jwti inspect -
 ```
 
 Input argument:
 
 ```bash
-python3 -m jwtq inspect <JWT>
+python3 -m jwti inspect <JWT>
 ```
 
 Get help:
 
 ```bash
-python3 -m jwtq ---help
+python3 -m jwti ---help
 ```
 
 ## Local development
