@@ -159,7 +159,7 @@ def version():
         f"{version_info.major}.{version_info.minor}.{version_info.micro}"
     )
     print(
-        f":anchor: [bold blue]{app_full_name}[/bold blue] {app_version} "
+        f":key: [bold blue]{app_full_name}[/bold blue] {app_version} "
         f"(Python {python_version})"
     )
 
