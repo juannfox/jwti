@@ -16,12 +16,12 @@ dependencies = [
 
 [dependency-groups]
 dev = [
-    "pre-commit==4.5.1",
-    "pyinstaller==6.20.0",
-    "pyright==1.1.409",
-    "pytest==9.0.3",
-    "pytest-cov==7.1.0",
-    "ruff==0.15.12",
+    "pre-commit>=4.5.1",
+    "pyinstaller>=6.20.0",
+    "pyright>=1.1.409",
+    "pytest>=9.0.3",
+    "pytest-cov>=7.1.0",
+    "ruff>=0.15.12",
 ]
 
 [tool.setuptools]
@@ -47,6 +47,9 @@ select = ["E", "F"]
 pythonpath = [
   "."
 ]
+
+[tool.uv]
+exclude-newer = "2 weeks"
 
 [tool.uv.sources]
 jwti = { workspace = true }
